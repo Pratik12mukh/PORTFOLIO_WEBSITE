@@ -1,0 +1,619 @@
+/* General Reset */
+* {
+    margin: 0;                  /* Remove default margin */
+    padding: 0;                 /* Remove default padding */
+    box-sizing: border-box;     /* Include padding and border in element's total width and height */
+}
+
+html {
+    scroll-behavior: smooth;    /* Enable smooth scrolling for the page */
+}
+
+body {
+    font-family: 'Roboto', Arial, sans-serif;  /* Set the font family */
+    color: var(--primary-color);              /* Set the text color using a CSS variable */
+    background-color: var(--background-color);  /* Set the background color using a CSS variable */
+    transition: background-color 0.3s, color 0.3s;  /* Smooth transition for background and text color changes */
+}
+
+/* Variables */
+:root {
+    --primary-color: #333;     /* Primary text color */
+    --secondary-color: #6fa8dc;/* Secondary color for highlights */
+    --background-color: #f4f4f9;/* Background color for light mode */
+    --hover-color: #555;       /* Color for hover effects */
+    --section-bg-light: #fff;  /* Background color for light sections */
+    --section-bg-dark: #f4f4f9;/* Background color for dark sections */
+}
+
+body.dark {
+    --primary-color: #fff;     /* Primary text color for dark mode */
+    --secondary-color: #9fc5e8;/* Secondary color for highlights in dark mode */
+    --background-color: #121212;/* Background color for dark mode */
+    --hover-color: #bbb;       /* Color for hover effects in dark mode */
+    --section-bg-light: #1e1e1e;/* Background color for light sections in dark mode */
+    --section-bg-dark: #292c35;/* Background color for dark sections in dark mode */
+}
+
+/* Navigation Bar */
+.navbar {
+    position: fixed;           /* Fix the navbar to the top of the viewport */
+    top: 0;                    /* Position it at the top */
+    width: 100%;               /* Make it full width */
+    background-color: transparent; /* Make the background transparent */
+    z-index: 1000;             /* Ensure it stays on top of other elements */
+    padding: 0.5rem 0;          /* Add padding */
+}
+
+.navbar ul {
+    display: flex;             /* Use flexbox for layout */
+    justify-content: center;   /* Center the items horizontally */
+    list-style: none;          /* Remove default list styling */
+}
+
+.navbar a {
+    text-decoration: none;     /* Remove underline from links */
+    color: var(--primary-color);/* Set the text color using a CSS variable */
+    margin: 0 1rem;            /* Add margin around the links */
+    font-size: 1rem;           /* Set the font size */
+    transition: color 0.3s ease, transform 0.3s; /* Smooth transition for color and transform changes */
+    background-color: transparent; /* Make the background transparent */
+    padding: 0;                /* Remove padding */
+}
+
+.navbar a:hover, .navbar a.active {
+    color: var(--secondary-color); /* Change text color on hover or when active */
+    border-bottom: 2px solid var(--secondary-color); /* Add a bottom border on hover or when active */
+    animation: bounce 0.5s;    /* Apply a bounce animation */
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0); /* No transformation */
+    }
+    40% {
+        transform: translateY(-10px); /* Move up by 10px */
+    }
+    60% {
+        transform: translateY(-5px); /* Move up by 5px */
+    }
+}
+
+.nav-toggle {
+    display: none;             /* Hide the nav toggle button by default */
+    background: none;           /* Remove background */
+    border: none;              /* Remove border */
+    cursor: pointer;           /* Change cursor to pointer on hover */
+}
+
+.nav-toggle .hamburger {
+    width: 25px;               /* Set the width of the hamburger icon */
+    height: 3px;                /* Set the height of the hamburger icon */
+    background: var(--primary-color); /* Set the background color using a CSS variable */
+    display: block;            /* Display as a block element */
+    position: relative;         /* Position relative to its normal position */
+    transition: background 0.3s;/* Smooth transition for background color changes */
+}
+
+.nav-toggle .hamburger::before,
+.nav-toggle .hamburger::after {
+    content: '';               /* Add content for the pseudo-elements */
+    width: 25px;               /* Set the width */
+    height: 3px;                /* Set the height */
+    background: var(--primary-color); /* Set the background color using a CSS variable */
+    display: block;            /* Display as a block element */
+    position: absolute;        /* Position absolute */
+    transition: background 0.3s;/* Smooth transition for background color changes */
+}
+
+.nav-toggle .hamburger::before {
+    top: -8px;                 /* Position above the main line */
+}
+
+.nav-toggle .hamburger::after {
+    bottom: -8px;              /* Position below the main line */
+}
+
+/* Dark Mode Toggle Switch */
+.dark-mode-switch {
+    position: fixed;           /* Fix the switch to the top-right corner */
+    top: 1rem;                 /* Position it 1rem from the top */
+    right: 1rem;               /* Position it 1rem from the right */
+    z-index: 1000;             /* Ensure it stays on top of other elements */
+}
+
+.checkbox {
+    opacity: 0;                /* Make the checkbox invisible */
+    position: absolute;        /* Position absolute */
+}
+
+.checkbox-label {
+    background-color: #111;    /* Set the background color */
+    width: 50px;              /* Set the width */
+    height: 26px;              /* Set the height */
+    border-radius: 50px;      /* Make the corners rounded */
+    position: relative;         /* Position relative to its normal position */
+    padding: 5px;              /* Add padding */
+    cursor: pointer;           /* Change cursor to pointer on hover */
+    display: flex;             /* Use flexbox for layout */
+    align-items: center;       /* Vertically center items */
+}
+
+.checkbox-label .ball {
+    background-color: #fff;    /* Set the background color */
+    width: 22px;               /* Set the width */
+    height: 22px;              /* Set the height */
+    position: absolute;        /* Position absolute */
+    left: 2px;                /* Position from the left */
+    top: 2px;                 /* Position from the top */
+    border-radius: 50%;        /* Make it a circle */
+    transition: transform 0.2s linear; /* Smooth transition for transform changes */
+}
+
+.checkbox:checked + .checkbox-label .ball {
+    transform: translateX(24px); /* Move the ball to the right when checked */
+}
+
+/* Sections */
+.section {
+    scroll-snap-align: start;  /* Align the section to the start of the scroll snap */
+    min-height: 100vh;         /* Make the section at least as tall as the viewport */
+    display: flex;             /* Use flexbox for layout */
+    justify-content: center;   /* Center the items horizontally */
+    align-items: center;       /* Center the items vertically */
+    padding: 2rem;             /* Add padding */
+    text-align: center;        /* Center the text */
+    background-color: var(--section-bg-light); /* Set the background color using a CSS variable */
+}
+
+.section:nth-child(even) {
+    background-color: var(--section-bg-dark); /* Set the background color for even sections using a CSS variable */
+}
+
+body.dark .section {
+    background-color: var(--section-bg-dark); /* Set the background color for dark mode using a CSS variable */
+}
+
+/* Homepage */
+.title-container h1 {
+    font-size: 2.5rem;         /* Set the font size */
+    margin-bottom: 1rem;       /* Add margin below */
+    color: var(--primary-color);/* Set the text color using a CSS variable */
+    animation: wave 2s infinite;/* Apply a wave animation */
+}
+
+@keyframes wave {
+    0% {
+        transform: translateX(0); /* No transformation */
+    }
+    50% {
+        transform: translateX(10px); /* Move right by 10px */
+    }
+    100% {
+        transform: translateX(0); /* No transformation */
+    }
+}
+
+.typewrite > .wrap {
+    border-right: 2px solid var(--primary-color); /* Add a border to the right */
+    padding-right: 5px;        /* Add padding to the right */
+    animation: blink 0.7s infinite; /* Apply a blink animation */
+}
+
+@keyframes blink {
+    50% {
+        border-color: transparent; /* Make the border color transparent */
+    }
+}
+
+/* About Me */
+.about-container {
+    display: flex;               /* Use flexbox for layout */
+    align-items: center;         /* Vertically center items */
+    justify-content: center;     /* Horizontally center items */
+    gap: 2rem;                   /* Space between items */
+    flex-wrap: wrap;             /* Allow items to wrap to the next line */
+    max-width: 1200px;          /* Maximum width of the container */
+    margin: 0 auto;             /* Center the container horizontally */
+    animation: fadeIn 1s ease-in-out; /* Fade-in animation */
+}
+
+.about-image {
+    position: relative;         /* Position relative to its normal position */
+    width: 300px;               /* Set width of the image container */
+    height: auto;                /* Maintain aspect ratio */
+    overflow: hidden;           /* Hide any overflow content */
+}
+
+.about-image img {
+    width: 100%;                /* Make the image fill the container */
+    height: auto;                /* Maintain aspect ratio */
+    -webkit-mask-image: url('images/Image from iOS.png'); /* Mask image for WebKit browsers */
+    mask-image: url('images/Image from iOS.png');       /* Mask image for other browsers */
+    mask-size: cover;           /* Cover the entire container */
+    mask-repeat: no-repeat;     /* Do not repeat the mask image */
+    mask-position: center;       /* Center the mask image */
+    outline: 1px solid #ddd;     /* Add a border around the image */
+    outline-offset: -1px;       /* Adjust the border offset */
+    transition: transform 0.3s, outline 0.3s; /* Smooth transition for transform and outline */
+}
+
+.about-image img:hover {
+    transform: scale(1.05);  /* Slightly scale up the image on hover */
+    outline: 1px solid #ddd; /* Add a border around the image on hover */
+    outline-offset: -1px;  /* Adjust the border offset on hover */
+}
+
+.about-text {
+    text-align: left;          /* Align text to the left */
+    max-width: 600px;          /* Maximum width of the text container */
+    animation: slideIn 1s ease-in-out; /* Slide-in animation */
+    transition: transform 0.3s, box-shadow 0.3s; /* Smooth transition for transform and box-shadow */
+    background-color: var(--section-bg-light); /* Background color for light mode */
+    padding: 20px;              /* Padding inside the text container */
+    border-radius: 10px;        /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Box shadow for depth */
+    border: 1px solid #ddd;    /* Add a border around the text container */
+}
+
+body.dark .about-text {
+    background-color: var(--section-bg-dark); /* Background color for dark mode */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Box shadow for dark mode */
+    border: 1px solid #ddd;    /* Add a border around the text container in dark mode */
+}
+
+.about-text:hover {
+    transform: scale(1.02);  /* Slightly scale up the text container on hover */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Box shadow on hover */
+}
+
+body.dark .about-text:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Box shadow on hover in dark mode */
+}
+
+.about-text h2 {
+    margin-bottom: 1rem;  /* Space below the heading */
+    color: var(--secondary-color); /* Heading color */
+}
+
+.about-text p {
+    font-size: 1.1rem;  /* Font size for the paragraph */
+    line-height: 1.6;     /* Line height for better readability */
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;  /* Start with opacity 0 */
+    }
+    to {
+        opacity: 1;  /* End with opacity 1 */
+    }
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(-100%);  /* Start from the left */
+        opacity: 0;                     /* Start with opacity 0 */
+    }
+    to {
+        transform: translateX(0);      /* End at the center */
+        opacity: 1;                   /* End with opacity 1 */
+    }
+}
+
+/* Skills and Education */
+.skills-education-container {
+    margin-bottom: 2rem;  /* Add margin below */
+}
+
+.section-title {
+    margin-bottom: 1rem;  /* Add margin below */
+    text-align: center;    /* Center the text */
+    animation: wave 2s infinite; /* Apply a wave animation */
+}
+
+.skills, .education {
+    display: flex;             /* Use flexbox for layout */
+    flex-wrap: wrap;            /* Allow items to wrap to the next line */
+    justify-content: center;   /* Center the items horizontally */
+    list-style: none;          /* Remove default list styling */
+    gap: 1rem;                 /* Space between items */
+    padding: 0;                /* Remove padding */
+}
+
+.skills li, .education li {
+    background: var(--section-bg-light); /* Background color for light mode */
+    border: 1px solid #ddd;    /* Add a border around the items */
+    border-radius: 5px;       /* Rounded corners */
+    padding: 1rem;            /* Padding inside the items */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Box shadow for depth */
+    transition: transform 0.3s, box-shadow 0.3s, rotate 0.3s; /* Smooth transition for transform, box-shadow, and rotate */
+    width: 200px;             /* Set the width */
+    text-align: center;       /* Center the text */
+}
+
+body.dark .skills li, body.dark .education li {
+    background: var(--section-bg-dark); /* Background color for dark mode */
+}
+
+.skills li:hover, .education li:hover {
+    transform: translateY(-5px) rotate(5deg); /* Move up and rotate on hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Box shadow on hover */
+}
+
+/* Timeline */
+.timeline {
+    position: relative;         /* Position relative to its normal position */
+    margin: 2rem 0;             /* Add margin above and below */
+}
+
+.timeline::before {
+    content: '';               /* Add content for the pseudo-element */
+    position: absolute;        /* Position absolute */
+    top: 0;                    /* Position at the top */
+    left: 50%;                 /* Position at the center horizontally */
+    width: 4px;                /* Set the width */
+    height: 100%;              /* Make it full height */
+    background-color: #ccc;    /* Set the background color */
+}
+
+.timeline-item {
+    position: relative;         /* Position relative to its normal position */
+    width: 45%;                 /* Set the width */
+    margin: 1rem 0;             /* Add margin above and below */
+    padding: 1rem;              /* Add padding inside */
+    background-color: var(--section-bg-light); /* Background color for light mode */
+    border: 1px solid #ddd;    /* Add a border around the items */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Box shadow for depth */
+    border-radius: 5px;        /* Rounded corners */
+    text-align: left;          /* Align text to the left */
+    transition: transform 0.3s, box-shadow 0.3s; /* Smooth transition for transform and box-shadow */
+}
+
+body.dark .timeline-item {
+    background-color: var(--section-bg-dark); /* Background color for dark mode */
+}
+
+.timeline-item:nth-child(even) {
+    left: 55%;                 /* Position to the right for even items */
+}
+
+.timeline-item h3 {
+    margin-bottom: 0.5rem;     /* Add margin below */
+}
+
+.timeline-item h4 {
+    margin-bottom: 0.5rem;     /* Add margin below */
+    font-size: 1rem;           /* Set the font size */
+    color: #555;               /* Set the text color */
+}
+
+.timeline-date {
+    margin-bottom: 1rem;       /* Add margin below */
+    font-size: 0.9rem;         /* Set the font size */
+    color: #777;               /* Set the text color */
+}
+
+.timeline-item ul {
+    list-style-type: disc;     /* Set the list style type */
+    padding-left: 1.5rem;      /* Add padding to the left */
+}
+
+.timeline-item ul li {
+    margin-bottom: 0.5rem;     /* Add margin below */
+}
+
+.timeline-item:hover {
+    transform: scale(1.05);   /* Slightly scale up on hover */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Box shadow on hover */
+}
+
+/* Projects */
+/* Add a container for the projects grid */
+.projects-grid {
+    display: grid;             /* Use grid layout */
+    grid-template-columns: repeat(2, 1fr); /* 2 columns */
+    gap: 2rem;                 /* Space between items */
+    width: 100%;               /* Make it full width */
+    max-width: 1200px;         /* Maximum width of the container */
+    margin: 0 auto;           /* Center the container horizontally */
+}
+
+/* Style each project card */
+.project-card {
+    padding: 2rem;            /* Add padding inside */
+    background-color: var(--section-bg-light); /* Background color for light mode */
+    transition: transform 0.3s, box-shadow 0.3s; /* Smooth transition for transform and box-shadow */
+    border: 1px solid #ddd;    /* Add a border around the card */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Box shadow for depth */
+    border-radius: 5px;       /* Rounded corners */
+    text-align: left;          /* Align text to the left */
+}
+
+body.dark .project-card {
+    background-color: var(--section-bg-dark); /* Background color for dark mode */
+}
+
+.project-card:hover {
+    transform: scale(1.1);    /* Slightly scale up on hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Box shadow on hover */
+}
+
+.project-card h3 {
+    margin-bottom: 0.5rem;     /* Add margin below */
+    font-size: 1.25rem;       /* Set the font size */
+}
+
+.project-card p {
+    margin-bottom: 1rem;      /* Add margin below */
+    font-size: 1rem;          /* Set the font size */
+}
+
+.project-card a {
+    display: inline-block;    /* Display as an inline-block element */
+    margin-top: 1rem;          /* Add margin above */
+    color: var(--secondary-color); /* Set the text color using a CSS variable */
+    text-decoration: none;    /* Remove underline */
+    transition: color 0.3s;    /* Smooth transition for color changes */
+}
+
+.project-card a:hover {
+    color: var(--hover-color); /* Change text color on hover */
+}
+
+/* Adjust the heading for the Projects section */
+#projects h2 {
+    margin-bottom: 2rem;       /* Add margin below */
+    font-size: 2rem;           /* Set the font size */
+    color: var(--primary-color); /* Set the text color using a CSS variable */
+    text-align: center;        /* Center the text */
+}
+
+/* Contact */
+#contact {
+    background-color: var(--section-bg-light); /* Background color for light mode */
+    border-radius: 5px;       /* Rounded corners */
+}
+
+body.dark #contact {
+    background-color: var(--section-bg-dark); /* Background color for dark mode */
+    border-radius: 5px;       /* Rounded corners */
+}
+
+#contact .content {
+    background-color: var(--section-bg-light); /* Background color for light mode */
+    padding: 2rem;             /* Add padding inside */
+    border-radius: 10px;       /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Box shadow for depth */
+    width: 100%;               /* Make it full width */
+    max-width: 600px;          /* Maximum width of the container */
+    border: 1px solid #ddd;    /* Add a border around the content */
+}
+
+body.dark #contact .content {
+    background-color: var(--section-bg-dark); /* Background color for dark mode */
+}
+
+#contact h2 {
+    margin-bottom: 1.5rem;     /* Add margin below */
+}
+
+#contact form {
+    display: flex;             /* Use flexbox for layout */
+    flex-direction: column;   /* Arrange items in a column */
+    gap: 1.5rem;               /* Space between items */
+}
+
+#contact .form-group {
+    position: relative;         /* Position relative to its normal position */
+    width: 100%;               /* Make it full width */
+}
+
+#contact .form-group i {
+    position: absolute;        /* Position absolute */
+    left: 1rem;                /* Position from the left */
+    top: 50%;                  /* Position from the top */
+    transform: translateY(-50%); /* Vertically center */
+    color: var(--secondary-color); /* Set the text color using a CSS variable */
+}
+
+#contact .form-group input, #contact .form-group textarea {
+    width: 100%;               /* Make it full width */
+    padding: 1rem 1rem 1rem 3rem; /* Add padding inside */
+    border: 1px solid #ddd;    /* Add a border around the input */
+    border-radius: 5px;       /* Rounded corners */
+    transition: border-color 0.3s; /* Smooth transition for border color changes */
+}
+
+#contact .form-group input:focus, #contact .form-group textarea:focus {
+    border-color: var(--secondary-color); /* Change border color on focus */
+    outline: none;             /* Remove outline */
+}
+
+#contact button {
+    padding: 0.8rem 2rem;      /* Add padding inside */
+    background-color: var(--primary-color); /* Set the background color using a CSS variable */
+    color: #fff;              /* Set the text color */
+    border: none;             /* Remove border */
+    cursor: pointer;           /* Change cursor to pointer on hover */
+    border-radius: 5px;       /* Rounded corners */
+    transition: background-color 0.3s, transform 0.3s; /* Smooth transition for background color and transform changes */
+}
+
+#contact button:hover {
+    background-color: var(--hover-color); /* Change background color on hover */
+    transform: translateY(-2px); /* Move up slightly on hover */
+    animation: pulse 0.5s;     /* Apply a pulse animation */
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);  /* No transformation */
+    }
+    50% {
+        transform: scale(1.1); /* Scale up slightly */
+    }
+    100% {
+        transform: scale(1);  /* No transformation */
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .navbar ul {
+        flex-direction: column; /* Arrange items in a column */
+        display: none;          /* Hide the navigation links by default */
+    }
+
+    .navbar.active ul {
+        display: flex;          /* Show the navigation links when active */
+    }
+
+    .navbar a {
+        margin: 0.5rem 0;        /* Add margin above and below */
+    }
+
+    .section {
+        padding: 1rem;          /* Add padding inside */
+    }
+
+    .about-container {
+        flex-direction: column; /* Arrange items in a column */
+        text-align: center;      /* Center the text */
+    }
+
+    .about-image img {
+        margin-bottom: 1rem;    /* Add margin below */
+        width: 200px;            /* Set the width */
+    }
+
+    #contact .content {
+        padding: 1rem;           /* Add padding inside */
+    }
+
+    .skills, .education {
+        flex-direction: column; /* Arrange items in a column */
+        align-items: center;     /* Center the items horizontally */
+    }
+
+    .skills li, .education li {
+        width: 100%;             /* Make it full width */
+    }
+
+    .timeline-item {
+        width: 90%;              /* Set the width */
+        left: 5%;                /* Position from the left */
+    }
+
+    .timeline-item:nth-child(even) {
+        left: 5%;                /* Position from the left for even items */
+    }
+
+    .nav-toggle {
+        display: block;          /* Show the nav toggle button */
+    }
+    /* Change the grid layout to a single column for smaller screens */
+    .projects-grid {
+        grid-template-columns: 1fr; /* Single column */
+    }
+}
